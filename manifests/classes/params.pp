@@ -19,6 +19,7 @@ class haproxy::params {
 		}
 	}
 	
+	# Installing from source
 	$unpack_root = $haproxy_unpack_root ? {
 		""      => "/usr/src",
 		default => $haproxy_unpack_root
@@ -27,5 +28,114 @@ class haproxy::params {
 	$configdir = $haproxy_configdir ? {
 		""      => "/etc/haproxy",
 		default => $haproxy_configdir
+	}
+	
+	$homedir = $haproxy_homedir ? {
+		""      => "/var/lib/haproxy",
+		default => $haproxy_homedir
+	}
+	
+	$user = $haproxy_user ? {
+		""      => "haproxy",
+		default => $haproxy_user
+	}
+	
+	$group = $haproxy_group ? {
+		""      => "haproxy",
+		default => $haproxy_group
+	}
+	
+	$uid = $haproxy_uid ? {
+		""      => "200",
+		default => $haproxy_uid
+	}
+	
+	$gid = $haproxy_gid ? {
+		""      => "200",
+		default => $haproxy_gid
+	}
+	
+	# Config file builder: concat or augeas
+	$config_builder = $haproxy_config_builder ? {
+		"concat" => "concat",
+		"augeas" => "augeas",
+		default  => "concat"
+	}
+	
+	# Default global params
+	$global_loghost = $haproxy_global_loghost ? {
+		""      => "127.0.0.1",
+		default => $haproxy_global_loghost
+	}
+	
+	$global_logfacilities = $haproxy_global_logfacilities ? {
+		""      => [ { name => "local0", params => "" }, { name => "local1", params => "notice" } ],
+		default => $haproxy_global_logfacilities
+	}
+	
+	$global_maxconn = $haproxy_global_maxconn ? {
+		""      => "4096",
+		default => $haproxy_global_maxconn
+	}
+	
+	$global_daemon = $haproxy_global_daemon ? {
+		"true"  => true,
+		"false" => false,
+		default => true
+	}
+	
+	$global_debug = $haproxy_global_debug ? {
+		"true"  => true,
+		"false" => false,
+		default => false
+	}
+	
+	$global_quiet = $haproxy_global_quiet ? {
+		"true"  => true,
+		"false" => false,
+		default => false
+	}
+	
+	$global_chroot = $haproxy_global_chroot
+	
+	# Default defaults params
+	$defaults_log = $haproxy_defaults_log ? {
+		""      => "global",
+		default => $haproxy_defaults_log
+	}
+	
+	$defaults_mode = $haproxy_defaults_mode ? {
+		""      => "http",
+		default => $haproxy_defaults_mode
+	}
+	
+	$defaults_retries = $haproxy_defaults_retries ? {
+		""      => "3",
+		default => $haproxy_defaults_retries
+	}
+	
+	$defaults_maxconn = $haproxy_defaults_maxconn ? {
+		""      => "2000",
+		default => $haproxy_defaults_maxconn
+	}
+	
+	$defaults_contimeout = $haproxy_defaults_contimeout ? {
+		""      => "5000",
+		default => $haproxy_defaults_contimeout
+	}
+	
+	$defaults_clitimeout = $haproxy_defaults_clitimeout ? {
+		""      => "50000",
+		default => $haproxy_defaults_clitimeout
+	}
+	
+	$defaults_srvtimeout = $haproxy_defaults_srvtimeout ? {
+		""      => "50000",
+		default => $haproxy_defaults_srvtimeout
+	}
+	
+	$defaults_options = $haproxy_defaults_options ? {
+		""      => [ "httplog", "dontlognull", "redispatch" ],
+		default => $haproxy_defaults_options
 	}
 }

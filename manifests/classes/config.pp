@@ -2,8 +2,6 @@
 #
 #
 class haproxy::config {
-	include augeas
-	
 	File {
 		owner   => root,
 		group   => root,
@@ -41,20 +39,5 @@ class haproxy::config {
 		ensure => directory
 	}
 	
-	file { "haproxy-config":
-		name    => "${haproxy::params::configdir}/haproxy.cfg",
-		ensure  => present,
-		mode    => 644,
-		source  => "puppet:///modules/haproxy/haproxy.cfg",
-		notify  => Class["haproxy::service"],
-		require => File[$haproxy::params::configdir]
-	}
-
-	# Augeas lens
-	file { "/usr/share/augeas/lenses/haproxy.aug":
-		ensure  => present,
-		source  => "puppet:///modules/haproxy/haproxy.aug",
-		mode    => 644,
-		require => Class["augeas"]
-	}
+	include "haproxy::config::${haproxy::params::config_builder}"
 }

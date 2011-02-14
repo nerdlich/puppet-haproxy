@@ -29,4 +29,19 @@ class haproxy::install::source {
 		refreshonly => true,
 		require     => Exec["make-haproxy"]
 	}
+	
+	user { $haproxy::params::user:
+		ensure     => present,
+		uid        => $haproxy::params::uid,
+		gid        => $haproxy::params::gid,
+		home       => $haproxy::params::homedir,
+		managehome => true,
+		shell      => "/bin/false",
+		require    => Group[$haproxy::params::group]
+	}
+	
+	group { $haproxy::params::group:
+		ensure => present,
+		gid    => $haproxy::params::gid
+	}
 }
