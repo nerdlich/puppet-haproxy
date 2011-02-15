@@ -151,7 +151,7 @@ class haproxy::params {
 	}
 	
 	$defaults_stats_realm = $haproxy_defaults_stats_realm ? {
-		""      => "HAproxy\ Load\ Balancer\ Statistics",
+		""      => 'HAproxy\ Load\ Balancer\ Statistics',
 		default => $haproxy_defaults_stats_realm
 	}
 	
