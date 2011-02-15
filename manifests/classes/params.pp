@@ -138,4 +138,30 @@ class haproxy::params {
 		""      => [ "httplog", "dontlognull", "redispatch" ],
 		default => $haproxy_defaults_options
 	}
+	
+	$defaults_stats = $haproxy_defaults_stats ? {
+		"true"  => true,
+		"false" => false,
+		default => false
+	}
+	
+	$defaults_stats_uri = $haproxy_defaults_stats_uri ? {
+		""      => "/lb?stats",
+		default => $haproxy_defaults_stats_uri
+	}
+	
+	$defaults_stats_realm = $haproxy_defaults_stats_realm ? {
+		""      => "HAproxy\ Load\ Balancer\ Statistics",
+		default => $haproxy_defaults_stats_realm
+	}
+	
+	$defaults_stats_auth_user = $haproxy_defaults_stats_auth_user ? {
+		""      => "admin",
+		default => $haproxy_defaults_stats_auth_user
+	}
+	
+	$defaults_stats_auth_password = $haproxy_defaults_stats_auth_password ? {
+		""      => "changeme",
+		default => $haproxy_defaults_stats_auth_password
+	}
 }
