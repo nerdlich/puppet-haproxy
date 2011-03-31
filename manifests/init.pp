@@ -1,8 +1,3 @@
-import "classes/*.pp"
-import "classes/config/*.pp"
-import "classes/install/*.pp"
-import "definitions/*.pp"
-
 class haproxy {
 	include haproxy::params
 	
