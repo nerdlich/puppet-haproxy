@@ -14,7 +14,7 @@ class haproxy::params {
 			default => $haproxy_version
 		},
 		"source"  => $haproxy_version ? {
-			""      => "1.4.10",
+			""      => "1.4.14",
 			default => $haproxy_version
 		}
 	}
