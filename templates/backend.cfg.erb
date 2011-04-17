@@ -1,9 +1,6 @@
-listen <%= name %> <%= ip %>:<%= port %>
+backend <%= name %>
 	mode <%= mode %>
 	balance <%= balance %>
-<% if maxconn != '' -%>
-	maxconn <%= maxconn %>
-<% end -%>
 <% if cookie -%>
 	cookie <%= cookie_name %> <%= cookie_options %>
 <% end -%>
@@ -20,10 +17,7 @@ listen <%= name %> <%= ip %>:<%= port %>
 <% options.each do |option| -%>
 	option <%= option %>
 <% end -%>
-<% if stats -%>
-	stats enable
-	stats uri     <%= stats_uri %>
-	stats realm   <%= stats_realm %>
-	stats auth    <%= stats_auth_user %>:<%= stats_auth_password %>
+<% if appsession -%>
+	appsession <%= appsession %>
 <% end -%>
 
