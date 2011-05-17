@@ -2,11 +2,11 @@
 #
 #
 class haproxy::service {
-	service { "haproxy":
+	service { 'haproxy':
 		ensure    => running,
 		enable    => true,
 		hasstatus => true,
-		restart   => "/etc/init.d/haproxy reload",
-		require   => Class["haproxy::config"]
+		restart   => '/etc/init.d/haproxy reload',
+		require   => Class['haproxy::config'],
 	}
 }

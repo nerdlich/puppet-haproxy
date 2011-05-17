@@ -5,39 +5,41 @@ class haproxy::config::augeas {
 	include augeas
 	
 	File {
-		owner   => root,
-		group   => root,
-		require => Class["haproxy::config"]
 	}
 		
 	file { "${haproxy::params::configdir}/haproxy.cfg":
 		ensure  => present,
-		mode    => 644,
-		notify  => Class["haproxy::service"]
+		owner   => 'root',
+		group   => 'root',
+		mode    => '0644',
+		notify  => Class['haproxy::service'],
+		require => Class['haproxy::config'],
 	}
 
 	# Augeas lens
-	file { "/usr/share/augeas/lenses/contrib/haproxy.aug":
+	file { "${augeas::params::contribdir}/haproxy.aug":
 		ensure  => present,
-		source  => "puppet:///modules/haproxy/haproxy.aug",
-		mode    => 644,
-		require => Class["augeas"]
+		source  => 'puppet:///modules/haproxy/haproxy.aug',
+		owner   => 'root',
+		group   => 'root',
+		mode    => '0644',
+		require => [ Class['augeas::config'], Class['haproxy::config'] ],
 	}
 	
 	Haproxy::Augeas {
-		require => [ Class["haproxy::config"], File["/usr/share/augeas/lenses/contrib/haproxy.aug"] ],
-		notify  => Class["haproxy::service"]
+		require => [ Class['haproxy::config'], File["${augeas::params::contribdir}/haproxy.aug"] ],
 	}
 	
-	haproxy::augeas { "managed-by-puppet":
+	haproxy::augeas { 'managed-by-puppet':
 		changes => [
 			"ins #comment before global",
 			"set global/#comment 'file managed by puppet'"
 		],
-		require => Haproxy::Augeas["global"]
+		notify  => Class['haproxy::service'],
+		require => [ Class['haproxy::config'], File["${augeas::params::contribdir}/haproxy.aug"], Haproxy::Augeas["global"] ],
 	}
 	
-	haproxy::augeas { "global":
+	haproxy::augeas { 'global':
 		section => "global",
 		changes => [
 			"set log[1] '127.0.0.1 local0'",
@@ -46,10 +48,12 @@ class haproxy::config::augeas {
 			"set user ${haproxy::params::user}",
 			"set group ${haproxy::params::group}",
 			"clear daemon"
-		]
+		],
+		notify  => Class['haproxy::service'],
+		require => [ Class['haproxy::config'], File["${augeas::params::contribdir}/haproxy.aug"] ],
 	}
 	
-	haproxy::augeas { "defaults":
+	haproxy::augeas { 'defaults':
 		section => "defaults",
 		changes => [
 			"set log global",
@@ -60,6 +64,7 @@ class haproxy::config::augeas {
 			"set clitimeout 50000",
 			"set srvtimeout 50000"
 		],
-		require => Haproxy::Augeas["global"]
+		notify  => Class['haproxy::service'],
+		require => [ Class['haproxy::config'], File["${augeas::params::contribdir}/haproxy.aug"], Haproxy::Augeas["global"] ],
 	}
 }

@@ -2,7 +2,7 @@
 #
 #
 class haproxy::install::package {
-	package { "haproxy":
-		ensure => $haproxy::params::version
+	package { 'haproxy':
+		ensure => $haproxy::params::version,
 	}
 }
