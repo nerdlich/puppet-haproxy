@@ -1,3 +1,41 @@
 haproxy
 
 This is the haproxy module.
+
+
+
+Example:
+
+    $haproxy_global_chroot = '/var/tmp/haproxy'
+    include haproxy
+
+    haproxy::listen {"webservers":
+        ip => '0.0.0.0',
+        mode => 'http',
+        balance => 'roundrobin',
+        options => ['httplog','httpclose','forwardfor','httpchk GET /check.txt'],
+        stats => 'enable',
+        stats_uri => '/admin?stats',
+        stats_auth_user =>  'USERNAME',
+        stats_auth_password => 'PASSWORD',
+        cookie => 'enable',
+        cookie_name => 'APPSERVER',
+        cookie_options => 'insert',
+        server_check => 'enable',
+        check_inter => 1000,
+        check_fall => 3,
+        servers => [
+        {
+            'name' => 'webserver1',
+            'ip' => '192.168.122.10',
+            'port' => 82,
+        },
+        {
+            'name' => 'webserver2',
+            'ip' => '192.168.122.11',
+            'port' => 82,
+        }
+        ],
+
+    }
+
