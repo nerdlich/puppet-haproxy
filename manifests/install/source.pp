@@ -3,7 +3,7 @@
 #
 class haproxy::install::source {
 	include buildenv::c
-	include buildenv::packages::libpcre3
+	include buildenv::libs::pcre
 	
 	common::archive { "haproxy-${haproxy::params::version}":
 		ensure   => present,
@@ -19,7 +19,7 @@ class haproxy::install::source {
 		creates     => "${haproxy::params::unpack_root}/haproxy-${haproxy::params::version}/haproxy",
 		refreshonly => true,
 		notify		  => Exec['make-install-haproxy'],
-		require     => [ Common::Archive["haproxy-${haproxy::params::version}"], Class['buildenv::c'], Class['buildenv::packages::libpcre3'] ],
+		require     => [ Common::Archive["haproxy-${haproxy::params::version}"], Class['buildenv::c'], Class['buildenv::libs::pcre'] ],
 	}
 
 	exec { 'make-install-haproxy':
