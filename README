@@ -29,11 +29,13 @@ Example:
             'name' => 'webserver1',
             'ip' => '192.168.122.10',
             'port' => 82,
+            'weight' => 10,
         },
         {
             'name' => 'webserver2',
             'ip' => '192.168.122.11',
             'port' => 82,
+            'weight' => 20,
         }
         ],
 
